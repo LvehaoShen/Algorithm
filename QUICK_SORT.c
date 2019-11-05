@@ -5,7 +5,6 @@ void quick_sort(int ar[], int low, int high);
 int split(int ar[], int low, int high);
 int partition(int arr[], int low, int high);
 void swap(int* i, int* j)
-
 int main()
 {
 	int ar[10];
@@ -14,7 +13,6 @@ int main()
 	quick_sort(ar, 0, 9);
 	for (int i = 0; i != 10; ++i)
 		printf("%d ", ar[i]);
-
 	return 0;
 }
 void swap(int* i, int* j)
@@ -57,8 +55,13 @@ int split(int ar[], int low, int high)
 int partition(int arr[], int low, int high) {
 	int k = low, pivot = arr[high];
 	for (int i = low; i < high; ++i)
-		if (arr[i] <= pivot) 
-			swap(&arr[i], &arr[k++]);
-	swap(&arr[k], &arr[high]);
+		if (arr[i] <= pivot)
+		{
+			if (k == i)
+				k++;
+			else
+				swap(&arr[i], &arr[k++]);
+		}			
+        swap(&arr[k], &arr[high]);
 	return k;
 }//CLRS 
