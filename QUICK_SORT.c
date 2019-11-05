@@ -8,13 +8,20 @@ void swap(int* i, int* j)
 
 int main()
 {
-	int ar[10] = { 2,23,111,222,33,1,23,89,17,123123 };
-
+	int ar[10];
+	for(int i;i!=10;++i)
+		scanf("%d",&ar[i]);
 	quick_sort(ar, 0, 9);
 	for (int i = 0; i != 10; ++i)
 		printf("%d ", ar[i]);
 
 	return 0;
+}
+void swap(int* i, int* j)
+{
+	int temp = *j;
+	*j = *i;
+	*i = temp;
 }
 void quick_sort(int ar[], int low, int high)
 {
@@ -55,9 +62,3 @@ int partition(int arr[], int low, int high) {
 	swap(&arr[k], &arr[high]);
 	return k;
 }//CLRS 
-void swap(int* i, int* j)
-{
-	int temp = *j;
-	*j = *i;
-	*i = temp;
-}
