@@ -1,21 +1,27 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <ctype.h>
 #include <string.h>
 #include <memory.h>
-void GetNextval(int* nextval, char* pat)
+#define MAXSIZE 100
+typedef struct string string;
+struct string {
+	char str[MAXSIZE];
+	int Length;
+};
+void GetNextval(int* nextval, string pat)
 {
 	int j = 0;
 	int k = -1;
-	
 	nextval[0] = -1;
-	while (j < strlen(pat) - 1)
+	while (j < pat.Length - 1)
 	{
-		if (k == -1 || pat[j] == pat[k])
+		if (k == -1 || pat.str[j] == pat.str[k])
 		{
 			j++;
 			k++;
-			if (pat[j] == pat[k])
+			if (pat.str[j] == pat.str[k])
 				nextval[j] = nextval[k];
 			else
 				nextval[j] = k;
@@ -24,15 +30,15 @@ void GetNextval(int* nextval, char* pat)
 			k = nextval[k];
 	}
 }
-int kmp(char* pat, char* txt)
+int kmp(string pat, string txt)
 {
-	int* nextval = malloc(sizeof(strlen(pat)));;
+	int nextval[MAXSIZE];
 	GetNextval(nextval, pat);
-	int i = 0; 
+	int i = 0;
 	int j = 0;
-	while (i < (int)strlen(txt) && j < (int)strlen(pat))
+	while (i < txt.Length && j < pat.Length)
 	{
-		if (j == -1 || txt[i] == pat[j])
+		if (j == -1 || txt.str[i] == pat.str[j])
 		{
 			i++;
 			j++;
@@ -40,17 +46,18 @@ int kmp(char* pat, char* txt)
 		else
 			j = nextval[j];
 	}
-	if (j >= (int)strlen(pat))
-		return(i - (int)strlen(pat));
+	if (j >= pat.Length)
+		return(i - pat.Length);
 	else
 		return -1;
 }
 int main()
 {
-	char pat[100] ;
-	char txt[100] ;
-	scanf("%s", pat);
-	scanf("%s", txt);
-	int i = kmp(pat, txt);
+	string pat, txt;
+	scanf("%s", pat.str);
+	scanf("%s", txt.str);
+	pat.Length = strlen(pat.str);
+	txt.Length = strlen(txt.str);
+	int i=kmp(pat, txt);
 	return 0;
 }
