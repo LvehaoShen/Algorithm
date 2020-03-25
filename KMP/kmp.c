@@ -3,12 +3,12 @@
 #include <ctype.h>
 #include <string.h>
 #include <memory.h>
-void GetNextval(int** nextval, char* pat)
+void GetNextval(int* nextval, char* pat)
 {
 	int j = 0;
 	int k = -1;
-	*nextval = malloc(sizeof(strlen(pat)));
-	(*nextval)[0] = -1;
+	
+	nextval[0] = -1;
 	while (j < strlen(pat) - 1)
 	{
 		if (k == -1 || pat[j] == pat[k])
@@ -16,18 +16,18 @@ void GetNextval(int** nextval, char* pat)
 			j++;
 			k++;
 			if (pat[j] == pat[k])
-				(*nextval)[j] = (*nextval)[k];
+				nextval[j] = nextval[k];
 			else
-				(*nextval)[j] = k;
+				nextval[j] = k;
 		}
 		else
-			k = (*nextval)[k];
+			k = nextval[k];
 	}
 }
 int kmp(char* pat, char* txt)
 {
-	int* nextval = NULL;
-	GetNextval(&nextval, pat);
+	int* nextval = malloc(sizeof(strlen(pat)));;
+	GetNextval(nextval, pat);
 	int i = 0; 
 	int j = 0;
 	while (i < (int)strlen(txt) && j < (int)strlen(pat))
